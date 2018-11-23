@@ -98,7 +98,10 @@ class Bullet
 }
 window.addEventListener('mousedown', () =>
 {
-    bullets.push(new Bullet(50, 15, cursor.x, cursor.y, 40))
+    if(gameStarted)
+    {
+        bullets.push(new Bullet(50, 15, cursor.x, cursor.y, 40))
+    }
 })
 
 //Obj Asteroid
@@ -163,12 +166,18 @@ const loop = () =>
     context.fillStyle = gradient;
     context.fillRect(0, 0, sizes.width, sizes.height)
     context.restore()
-    playerShip.drawPlayer(cursor.x, cursor.y)
     if(gameMenuOn)
     {
-        context.font = `50px "Press Start 2P"`
-        context.fillStyle = 'black'
         const startText = "Play"
+        if(cursor.x > ($canvas.width/2)-(context.measureText(startText).width/2) && (cursor.x < $canvas.width - ($canvas.width/2) + context.measureText(startText).width/2) && (cursor.y < ($canvas.height/2) && (cursor.y > $canvas.height/2 - 50)))
+        {
+            context.font = `60px "Press Start 2P"`
+            context.fillStyle = 'red'
+        }
+        else{
+            context.font = `50px "Press Start 2P"`
+            context.fillStyle = 'black'
+        }
         context.fillText(startText, ($canvas.width/2)-(context.measureText(startText).width/2), ($canvas.height/2))
         window.addEventListener('click', () =>
         {
@@ -180,6 +189,7 @@ const loop = () =>
         })
 
     }
+    playerShip.drawPlayer(cursor.x, cursor.y)
     if(gameStarted==true){
         for(let life = 0; life < playerShip.life; life++){
             drawLives(life) 
