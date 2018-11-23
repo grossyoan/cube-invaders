@@ -1,9 +1,9 @@
 // Set up
 const $canvas = document.querySelector('.js-canvas')
 const context = $canvas.getContext('2d')
+
 // Resize
 const sizes = { width: 800, height: 600 }
-
 const resize = () =>
 {
     sizes.width = window.innerWidth
@@ -21,13 +21,13 @@ const cursor =
     x: -50, 
     y: -50
 }
-
 window.addEventListener('mousemove', (_event) =>
 {
     cursor.x = _event.clientX
     cursor.y = _event.clientY
 })
 
+// Variable init
 let bullets = new Array()
 let asteroids = new Array()
 let lives = new Array()
@@ -38,8 +38,6 @@ asteroidPushNumber = 60
 const gradient = context.createLinearGradient(0,0,0, sizes.height)
 gradient.addColorStop(0,`hsl(${Math.random() * 360}, 100%, 50%)`)
 gradient.addColorStop(1,`hsl(${Math.random() * 360}, 100%, 50%)`)
-
-
 
 //OBJ Player
 class Player
@@ -96,8 +94,12 @@ class Bullet
         context.restore()
     }
 }
+window.addEventListener('mousedown', () =>
+{
+    bullets.push(new Bullet(50, 15, cursor.x, cursor.y, 40))
+})
 
-//Obj asteroid
+//Obj Asteroid
 class Asteroid
 {
     constructor(_size, _posX, _posY, _speed, _friction)
@@ -117,7 +119,6 @@ class Asteroid
         let randomMovement = Math.random() * (1.005 - 0.995) + 0.995
         return (randomMovement < 1.002 || randomMovement > 0.998) ? Math.random() * (1.005 - 0.995) + 0.995 : randomMovement        
     }
-
     drawAsteroid()
     {
         context.save()
@@ -142,7 +143,7 @@ class Asteroid
     }
 }
 
-//OBJ HeartLives
+//Live
 function drawLives(length){
     context.save()
     context.fillStyle = 'red'
@@ -151,11 +152,6 @@ function drawLives(length){
     context.fillText("O", (sizes.width*0.85)+ 80 * length, 50)
     context.restore()  
 }
-
-window.addEventListener('mousedown', () =>
-{
-    bullets.push(new Bullet(50, 15, cursor.x, cursor.y, 40))
-})
 
 //Loop
 const loop = () =>
@@ -198,7 +194,6 @@ const loop = () =>
         {
             bullets[i].drawBullet()
         }
-
     }
     if(asteroidPush>=asteroidPushNumber){
         asteroids.push(new Asteroid((Math.floor(Math.random() * (70 - 35)) + 35), Math.random()*sizes.width, 0, 3, 1.008))
@@ -213,7 +208,6 @@ const loop = () =>
         else
         {
             asteroidPushNumber*=0.95
-
         }
     }
     else
@@ -243,11 +237,11 @@ const loop = () =>
                         context.clearRect(0,0, sizes.width, sizes.height)
                         playerShip.dead=true
                     }
-
                 }
             }
         }
-    // Write score
+
+    // Display score
     context.font = '30px "Press Start 2P"'
     if(scoreCounterTemp != scoreDisplay ){
         scoreDisplay = scoreCounterTemp
