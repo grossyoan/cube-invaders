@@ -28,6 +28,8 @@ window.addEventListener('mousemove', (_event) =>
 })
 
 // Variable init
+let gameMenuOn = true
+let gameStarted = false
 let bullets = new Array()
 let asteroids = new Array()
 let lives = new Array()
@@ -162,95 +164,114 @@ const loop = () =>
     context.fillRect(0, 0, sizes.width, sizes.height)
     context.restore()
     playerShip.drawPlayer(cursor.x, cursor.y)
-    for(let life = 0; life < playerShip.life; life++){
-        drawLives(life) 
-    }
-    for(let i=0; i<bullets.length; i++){
-        if(bullets[i].posY<0)
+    if(gameMenuOn)
+    {
+        context.font = `50px "Press Start 2P"`
+        context.fillStyle = 'black'
+        const startText = "Play"
+        context.fillText(startText, ($canvas.width/2)-(context.measureText(startText).width/2), ($canvas.height/2))
+        window.addEventListener('click', () =>
         {
-            bullets.splice(bullets, 1)
-        }
-        for(let j=0; j<asteroids.length; j++)
-        {
-            if(bullets.length>0 && asteroids[j].posY > bullets[i].posY)
+            if(cursor.x > ($canvas.width/2)-(context.measureText(startText).width/2) && (cursor.x < $canvas.width - ($canvas.width/2) + context.measureText(startText).width/2) && (cursor.y < ($canvas.height/2) && (cursor.y > $canvas.height/2 - 50)))
             {
-                if(bullets[i].posX > asteroids[j].posX && bullets[i].posX < (asteroids[j].posX+asteroids[j].size) || (bullets[i]+ bullets[i].width) > asteroids[j].posX && (bullets[i]+ bullets[i].width) < (asteroids[j].posX+asteroids[j].width))
+                gameMenuOn=false
+                gameStarted=true
+            }
+        })
+
+    }
+    if(gameStarted==true){
+        for(let life = 0; life < playerShip.life; life++){
+            drawLives(life) 
+        }
+        for(let i=0; i<bullets.length; i++){
+            if(bullets[i].posY<0)
+            {
+                bullets.splice(bullets, 1)
+            }
+            for(let j=0; j<asteroids.length; j++)
+            {
+                if(bullets.length>0 && asteroids[j].posY > bullets[i].posY)
                 {
-                    if(asteroids[j].size>50)
+                    if(bullets[i].posX > asteroids[j].posX && bullets[i].posX < (asteroids[j].posX+asteroids[j].size) || (bullets[i]+ bullets[i].width) > asteroids[j].posX && (bullets[i]+ bullets[i].width) < (asteroids[j].posX+asteroids[j].width))
                     {
-                        asteroids[j].size/=1.5
-                        asteroids[j].posX=asteroids[j].posX+(asteroids[j].size/5)
-                    }
-                    else
-                    {
-                        asteroids.splice(j, 1)
-                        bullets.splice(i, 1)
-                        scoreCounterTemp++
+                        if(asteroids[j].size>50)
+                        {
+                            asteroids[j].size/=1.5
+                            asteroids[j].posX=asteroids[j].posX+(asteroids[j].size/5)
+                        }
+                        else
+                        {
+                            asteroids.splice(j, 1)
+                            bullets.splice(i, 1)
+                            scoreCounterTemp++
+                        }
                     }
                 }
             }
+            if(bullets.length>0)
+            {
+                bullets[i].drawBullet()
+            }
         }
-        if(bullets.length>0)
-        {
-            bullets[i].drawBullet()
-        }
-    }
-    if(asteroidPush>=asteroidPushNumber){
-        asteroids.push(new Asteroid((Math.floor(Math.random() * (70 - 35)) + 35), Math.random()*sizes.width, 0, 3, 1.008))
-        for(let i=0; i<asteroids.length; i++){
-            asteroids[i].drawAsteroid()
-        }
-        asteroidPush=0
-        if(asteroidPushNumber<3)
-        {
-            asteroidPushNumber=3
+        if(asteroidPush>=asteroidPushNumber){
+            asteroids.push(new Asteroid((Math.floor(Math.random() * (70 - 35)) + 35), Math.random()*sizes.width, 0, 3, 1.008))
+            for(let i=0; i<asteroids.length; i++){
+                asteroids[i].drawAsteroid()
+            }
+            asteroidPush=0
+            if(asteroidPushNumber<3)
+            {
+                asteroidPushNumber=3
+            }
+            else
+            {
+                asteroidPushNumber*=0.95
+            }
         }
         else
         {
-            asteroidPushNumber*=0.95
+            asteroidPush++
         }
-    }
-    else
-    {
-        asteroidPush++
-    }
-    for(let i=0; i<asteroids.length; i++){
-        asteroids[i].drawAsteroid()
-        if(asteroids[i].posY>sizes.width)
-        {
-            asteroids.splice(asteroids, 1)
-        }
-    }
-    for(let k=0; k<asteroids.length; k++)
-        {
-            if(asteroids[k].posY < playerShip.posY && (asteroids[k].posY + asteroids[k].size) > playerShip.posY)
+        for(let i=0; i<asteroids.length; i++){
+            asteroids[i].drawAsteroid()
+            if(asteroids[i].posY>sizes.width)
             {
-                if(playerShip.posX > asteroids[k].posX && playerShip.posX < (asteroids[k].posX+asteroids[k].size) || (playerShip+playerShip.size) > asteroids[k].posX && (playerShip+ playerShip.size) < (asteroids[k].posX+asteroids[k].width))
+                asteroids.splice(asteroids, 1)
+            }
+        }
+        for(let k=0; k<asteroids.length; k++)
+            {
+                if(asteroids[k].posY < playerShip.posY && (asteroids[k].posY + asteroids[k].size) > playerShip.posY)
                 {
-                    if (playerShip.life > 0){
-                        asteroids.splice(k, 1)
-                        playerShip.life-- 
-                    }
-                    if(playerShip.life <1 && playerShip.dead===false)
+                    if(playerShip.posX > asteroids[k].posX && playerShip.posX < (asteroids[k].posX+asteroids[k].size) || (playerShip+playerShip.size) > asteroids[k].posX && (playerShip+ playerShip.size) < (asteroids[k].posX+asteroids[k].width))
                     {
-                        window.alert("YOU DIEDED")
-                        context.clearRect(0,0, sizes.width, sizes.height)
-                        playerShip.dead=true
+                        if (playerShip.life > 0){
+                            asteroids.splice(k, 1)
+                            playerShip.life-- 
+                        }
+                        if(playerShip.life <1 && playerShip.dead===false)
+                        {
+                            window.alert("YOU DIEDED")
+                            context.clearRect(0,0, sizes.width, sizes.height)
+                            playerShip.dead=true
+                        }
                     }
                 }
             }
+    
+        // Display score
+        context.font = '30px "Press Start 2P"'
+        if(scoreCounterTemp != scoreDisplay ){
+            scoreDisplay = scoreCounterTemp
+            context.font = `32px "Press Start 2P"`
+            context.fillStyle = 'red'
         }
-
-    // Display score
-    context.font = '30px "Press Start 2P"'
-    if(scoreCounterTemp != scoreDisplay ){
-        scoreDisplay = scoreCounterTemp
-        context.font = `32px "Press Start 2P"`
-        context.fillStyle = 'red';
+        else{
+            context.fillStyle = 'black'
+        }
+        context.fillText(`SCORE : ${scoreDisplay}`,10,50)
     }
-    else{
-        context.fillStyle = 'black';
-    }
-    context.fillText(`SCORE : ${scoreDisplay}`,10,50)
 }
+
 loop()
