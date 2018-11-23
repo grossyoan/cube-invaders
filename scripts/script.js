@@ -12,7 +12,7 @@ const resize = () =>
     $canvas.width = sizes.width
     $canvas.height = sizes.height
 }
-window.addEventListener('resize', resize)
+window.addEventListener('resize', resize)&
 resize()
 
 // Cursor positon
@@ -192,9 +192,40 @@ const loop = () =>
     if(deathScreenOn)
     {
         const deathText = "You died"
+        const deathScore = `Your score is ${scoreDisplay}`
+        const restartButton = "Restart"
         context.font = `50px "Press Start 2P"`
-        context.fillStyle = 'black'
-        context.fillText(deathText, ($canvas.width/2)-(context.measureText(deathText).width/2), ($canvas.height/2))
+        context.save()
+        context.fillStyle="red"
+        context.fillText(deathText, ($canvas.width/2)-(context.measureText(deathText).width/2), ($canvas.height/2)-80)
+        context.restore()
+        context.fillText(deathScore, ($canvas.width/2)-(context.measureText(deathScore).width/2), ($canvas.height/2))
+        context.save()
+        if(cursor.x > ($canvas.width/2)-(context.measureText(restartButton).width/2) && (cursor.x < $canvas.width - ($canvas.width/2) + context.measureText(restartButton).width/2) && (cursor.y < (($canvas.height/2)+150) && (cursor.y > (($canvas.height/2)+80))))
+        {
+            context.font = `40px "Press Start 2P"`
+            context.fillStyle= "red"
+        }
+        else
+        {
+            context.font = `30px "Press Start 2P"`
+            context.fillStyle = "black"
+        }
+        context.fillText(restartButton, ($canvas.width/2)-(context.measureText(restartButton).width/2), (($canvas.height/2)+120))
+        context.restore()
+        window.addEventListener('click', () =>
+        {
+            if(cursor.x > ($canvas.width/2)-(context.measureText(restartButton).width/2) && (cursor.x < $canvas.width - ($canvas.width/2) + context.measureText(restartButton).width/2) && (cursor.y < (($canvas.height/2)+150) && (cursor.y > (($canvas.height/2)+80))))
+            {
+                deathScreenOn=false
+                gameStarted=true
+                scoreCounterTemp=0
+                scoreDisplay=0
+                playerShip.life=3
+                asteroids.splice(0, asteroids.length)
+                asteroidPushNumber = 60
+            }
+        })
     }
     playerShip.drawPlayer(cursor.x, cursor.y)
     if(gameStarted==true){
