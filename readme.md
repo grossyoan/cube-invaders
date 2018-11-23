@@ -14,14 +14,15 @@ A Space-Invader like Canvas based game
 - In real time score displayer
 - Life count
 - Starting screen
-- Death screen
+- Death screen displaying last game score
+- Restart option, reseting asteroids and score
 
 
 ## TO DO
 
 - [ ] Create an array of beautiful background colors   
 - [x] Add a starting screen (Could be improve tho)
-- [x] Add a death screen (Still WIP)
+- [x] Add a death screen 
 - [ ] Improve design
 - [ ] Add new game modes
 - [ ] Probably a lot of other things
