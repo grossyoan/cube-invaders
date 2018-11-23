@@ -30,6 +30,7 @@ window.addEventListener('mousemove', (_event) =>
 // Variable init
 let gameMenuOn = true
 let gameStarted = false
+deathScreenOn = false
 let bullets = new Array()
 let asteroids = new Array()
 let lives = new Array()
@@ -187,7 +188,13 @@ const loop = () =>
                 gameStarted=true
             }
         })
-
+    }
+    if(deathScreenOn)
+    {
+        const deathText = "You died"
+        context.font = `50px "Press Start 2P"`
+        context.fillStyle = 'black'
+        context.fillText(deathText, ($canvas.width/2)-(context.measureText(deathText).width/2), ($canvas.height/2))
     }
     playerShip.drawPlayer(cursor.x, cursor.y)
     if(gameStarted==true){
@@ -260,11 +267,11 @@ const loop = () =>
                             asteroids.splice(k, 1)
                             playerShip.life-- 
                         }
-                        if(playerShip.life <1 && playerShip.dead===false)
+                        if(playerShip.life <1)
                         {
-                            window.alert("YOU DIEDED")
-                            context.clearRect(0,0, sizes.width, sizes.height)
-                            playerShip.dead=true
+                            deathScreenOn=true
+                            gameStarted=false
+
                         }
                     }
                 }
