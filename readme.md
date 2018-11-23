@@ -13,12 +13,13 @@ A Space-Invader like Canvas based game
 - Increasing difficulty over time
 - In real time score displayer
 - Life count
+- Starting screen
 
 
 ## TO DO
 
 - [ ] Create an array of beautiful background colors   
-- [ ] Add a starting screen
+- [x] Add a starting screen (Could be improve tho)
 - [ ] Add a death screen
 - [ ] Improve design
 - [ ] Probably a lot of other things
