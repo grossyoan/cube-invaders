@@ -14,13 +14,14 @@ A Space-Invader like Canvas based game
 - In real time score displayer
 - Life count
 - Starting screen
+- Death screen
 
 
 ## TO DO
 
 - [ ] Create an array of beautiful background colors   
 - [x] Add a starting screen (Could be improve tho)
-- [ ] Add a death screen
+- [x] Add a death screen (Still WIP)
 - [ ] Improve design
-- [ ] Probably a lot of other things
 - [ ] Add new game modes
+- [ ] Probably a lot of other things
