@@ -16,6 +16,7 @@ A Space-Invader like Canvas based game
 - Starting screen
 - Death screen displaying last game score
 - Restart option, reseting asteroids and score
+- An amazing Favicon
 
 
 ## TO DO
