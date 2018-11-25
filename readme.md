@@ -2,6 +2,10 @@
 
 A Space-Invader like Canvas based game
 
+## Launch Trailer
+
+[![Alt text](https://i9.ytimg.com/vi/Ez4OFQANWRQ/mq2.jpg?sqp=COzq6t8F&rs=AOn4CLCAOPzSHE6DKiwiwFADXAn1YouKXA)](https://www.youtube.com/watch?v=Ez4OFQANWRQ&feature=youtu.be&fbclid=IwAR00EoyjzVrH_GgsYw9IeOWzHQXk2RC1h1TjjiadCwOeteugCB4Jfpr4Qn4)
+
 ## Features
 
 - Randomly generated asteroid launching positions and sizes
@@ -32,3 +36,4 @@ A Space-Invader like Canvas based game
 ## Known issues
 
 - Matching background/player/asteroids colors (Should be fixed with defined colors)
+
