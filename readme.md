@@ -26,3 +26,8 @@ A Space-Invader like Canvas based game
 - [ ] Improve design
 - [ ] Add new game modes
 - [ ] Probably a lot of other things
+
+
+## Known issues
+
+- Matching background/player/asteroids colors (Should be fixed with defined colors)
